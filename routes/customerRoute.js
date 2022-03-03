@@ -70,3 +70,82 @@ router.get("/user", function (req, res) {
         })
 })
 
+
+
+// router.delete('/customer/delete/:id12', function(req, res){
+//     const myid = req.params.id12;
+//     User.findByIdAndDelete(myid).then().catch();
+// })
+
+//login routes -  for customer
+router.post("/customer/login", function (req, res) {
+    const username = req.body.username;
+    //select * from customer where username = "admin"
+    Customer.findOne({ username: username })
+        .then(function (customerData) {
+            //console.log(customerData);
+            if (customerData === null) {
+                return res.json({ message: "invalid", success: false })
+            }
+            //need to check password
+            const password = req.body.password;
+            bcryptjs.compare(password, customerData.password, function (e, result) {
+                //true correct pw, false = incorrect pw
+                if (result === false) {
+                    return res.json({ message: "Invalid message", success: false })
+                }
+                // ticket generate - jsonwebtoken
+                const token = jwt.sign({ cusId: customerData._id }, "anysecretkey");
+                res.json({ token: token, message: "success", username: username, success: true, 'cusId': customerData._id });
+
+
+            })
+
+
+        })
+
+})
+
+//customer delete
+
+router.delete("/customer/profile/delete", auth.verifyPeople, function (req, res) {
+    // console.log(customerInfo)
+    const id = req.customerInfo._id;
+    Customer.findByIdAndDelete(id)
+        .then(function () {
+            res.json({ msg: "delete success!!" })
+        })
+        .catch(function () {
+            res.json({ msg: "try again!!" })
+        })
+
+})
+
+router.delete("/customer/delete", auth.verifyPeople, function (req, res) {
+    // const id = req.adminInfo._id;
+    const cusId = res.body.id;
+    Customer.deleteOne({ _id: cusId })
+        .then(function () {
+            res.json({ msg: "deleted sucess!!" })
+        })
+        .catch(function () {
+            res.json({ msg: "try again!!!!!!!!!!" })
+        })
+
+})
+
+router.post("/news/upload", upload.single('ab_cd'), function (req, res) {
+    // console.log(req.file);
+    if (req.file == undefined) {
+        return res.json({
+            message: "Invalid file format. Only jpeg and png allowed"
+        })
+    }
+    //code after success
+
+})
+
+
+
+
+module.exports = router;
