@@ -1,2 +1,0 @@
-# Android_Development_Backend
-Softwarica_c0llege_of_IT_and_ecommerce
