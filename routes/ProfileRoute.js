@@ -7,21 +7,25 @@ const upload = require("../uploads/uploads");
 
 const router = new express.Router();
 
-router.put("/customer/profile/update", auth.verifyPeople,  function (req, res) {
-    // upload.single('thumbnail'),
-    //console.log(req.customerInfo._id);
-    // const id = req.params.id;
+router.put("/profile/update", auth.verifyPeople, upload.single('thumbnail'),  function (req, res) {
+    console.log(req.customerInfo._id);
+    const id = req.customerInfo._id;
     const email = req.body.email;
     const fullname = req.body.fullname;
-    // const lastname = req.body.lastname;
-    // const bio = req.body.bio;
-    // const country = req.body.country;
-    // const username = req.body.username
-    // const address = req.body.address;
-    // const contact = req.body.contact;
-    // const thumbnail = req.body.thumbnail;
-    Customer.findByIdAndUpdate({ _id: id }, { fullname: fullname, email: email, })
-    // username: username, email: email, address: address, contact: contact, fullname: fullname, lastname: lastname, bio:bio, thumbnail :thumbnail, country: country
+    const bio = req.body.bio;
+    const country = req.body.country;
+    const address = req.body.address;
+    const contact = req.body.contact;
+    const thumbnail = req.file.filename;
+    Customer.findByIdAndUpdate({ _id: id }, {
+        fullname: fullname, 
+        email: email,
+        address: address, 
+        contact: contact,
+        bio:bio,
+        thumbnail :thumbnail,
+        country: country
+    })
         .then(function () {
             res.json({ msg: "Updated!!", success: true })
         })
@@ -30,7 +34,7 @@ router.put("/customer/profile/update", auth.verifyPeople,  function (req, res) {
         })
 })
 
-router.get('/profile/get/:id', auth.verifyPeople, function (req, res) {
+router.get('/profile/get/:id', function (req, res) {
     Customer.findOne({ _id: req.params.id }).then(result => {
         res.json(result);
     }).catch(e => {

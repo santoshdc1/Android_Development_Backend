@@ -16,22 +16,20 @@ const Customer = mongoose.model("Customer", {
     contact: {
         type: String
     }, 
-    // address: {
-    //     type: String
+    address: {
+        type: String
 
-    // },
-    // pimage: {
-    //     type: String
-    // },
-    // lastname:{
-    //     type: String
-    // },
-    // bio:{
-    //     type:String
-    // },
-    // country:{
-    //     type: String
-    // },
+    },
+    thumbnail: {
+        type: String
+    },
+    bio:{
+        type:String
+        
+    },
+    country:{
+        type: String
+    },
 
     created: {
         type: Date,

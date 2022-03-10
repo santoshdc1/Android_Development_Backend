@@ -36,6 +36,11 @@ router.post("/customer/register", function (req, res) {
                 email: email,
                 fullname: fullname,
                 contact: contact,
+                bio:"No bio",
+                // address:"No address",
+                country:"choose"
+                 
+                
                 // address: address,
                 // lastname: lastname,
                 // bio: bio,
@@ -91,7 +96,7 @@ router.post("/customer/login", function (req, res) {
                 }
                 // ticket generate - jsonwebtoken
                 const token = jwt.sign({ cusId: customerData._id }, "anysecretkey");
-                res.json({ token: token, message: "success", username: username, success: true });
+                res.json({ token: token, message: "success", username: username, success: true, 'cusId': customerData._id });
 
 
             })
@@ -105,45 +110,45 @@ router.post("/customer/login", function (req, res) {
 
 
 
-// customer profile update
-router.put("/customer/profile/update",function (req, res) {
-    //console.log(req.customerInfo._id);
-    // const id = req.params.id;
-    const email = req.body.email;
-    const fullname = req.body.fullname;
-    const pid = req.body.pid;
+// // customer profile update
+// router.put("/customer/profile/update",function (req, res) {
+//     //console.log(req.customerInfo._id);
+//     // const id = req.params.id;
+//     const email = req.body.email;
+//     const fullname = req.body.fullname;
+//     const pid = req.body.pid;
     
-    // const lastname = req.body.lastname;
-    // const bio = req.body.bio;
-    // const username = req.body.username
-    // const address = req.body.address;
-    // const contact = req.body.contact;
-    // const pimage = req.body.pimage;
-    Customer.findByIdAndUpdate({ _id: pid }, { 
-        // username: username, 
-        email: email, 
-        // address: address, 
-        // contact: contact, 
-        fullname: fullname, 
-        // lastname: lastname, 
-        // bio:bio, 
-        // pimage :pimage 
-    })
-        .then(function () {
-            res.json({ msg: "Updated!!", success: true })
-        })
-        .catch(function () {
-            res.json({ msg: "Try again!!", success: false })
-        })
-})
+//     // const lastname = req.body.lastname;
+//     // const bio = req.body.bio;
+//     // const username = req.body.username
+//     // const address = req.body.address;
+//     // const contact = req.body.contact;
+//     // const pimage = req.body.pimage;
+//     Customer.findByIdAndUpdate({ _id: pid }, { 
+//         // username: username, 
+//         email: email, 
+//         // address: address, 
+//         // contact: contact, 
+//         fullname: fullname, 
+//         // lastname: lastname, 
+//         // bio:bio, 
+//         // pimage :pimage 
+//     })
+//         .then(function () {
+//             res.json({ msg: "Updated!!", success: true })
+//         })
+//         .catch(function () {
+//             res.json({ msg: "Try again!!", success: false })
+//         })
+// })
 
-router.get('/profile/get/:id', auth.verifyPeople, function (req, res) {
-    Customer.findOne({ _id: req.params.id }).then(result => {
-        res.json(result);
-    }).catch(e => {
-        res.json(e)
-    })
-})
+// router.get('/profile/get/:id', auth.verifyPeople, function (req, res) {
+//     Customer.findOne({ _id: req.params.id }).then(result => {
+//         res.json(result);
+//     }).catch(e => {
+//         res.json(e)
+//     })
+// })
 
 //customer delete
 

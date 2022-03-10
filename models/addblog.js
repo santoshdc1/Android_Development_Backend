@@ -9,7 +9,7 @@ const Blog = new mongoose.Schema({
     },
     cusId:{
       type: mongoose.Schema.Types.ObjectId,
-      ref:'customer'
+      ref:'Customer'
   },
 
   thumbnail:{
